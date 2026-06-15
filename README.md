@@ -2,6 +2,8 @@
 
 ## Written by Ryan Maxin
 
+[Link](https://ryanmaxin.github.io/ura-progress/)
+
 ## Weeks
 
 ### June 8, 2026 - June 15, 2026
@@ -46,7 +48,6 @@ _Goals:_
 
 - [ ] Add read of mutable state check
 - [ ] Examine tree structure for basic cases
-- [ ] Add dynamic cycle checking
 
 ## Future todos (Add and remove as needed)
 
