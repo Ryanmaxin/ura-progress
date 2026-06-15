@@ -26,13 +26,13 @@ _Additional:_
 
 #### Topics
 
-- [ ] How should I share my code changes? Should I fork or branch from the official scala compiler. Whats the process to get it merged? https://github.com/scala/scala3/branches/all From branches, we see that they don't seem to allow random branches
-- [ ] How is my abstract domain?
-  - [ ] The whole point of the domain is to build a lattice, which proves that we have a fixed point (IE the program will terminate).
-  - [ ] The fixed point could still be massive in practice?
-  - [ ] What should be the top exactly?
-  - [ ] When should I add in "corrupting" informaiton (IE unknown info, incomputable info, when to "give up" on the computation?), corruption spreads with join?
-  - [ ] Should the RM, dep be defined as part of the abstract domain, should they be lattices aswell?
+- [x] How should I share my code changes? Should I fork or branch from the official scala compiler. Whats the process to get it merged? https://github.com/scala/scala3/branches/all From branches, we see that they don't seem to allow random branches
+- [x] How is my abstract domain?
+  - [x] The whole point of the domain is to build a lattice, which proves that we have a fixed point (IE the program will terminate).
+  - [x] The fixed point could still be massive in practice?
+  - [x] What should be the top exactly?
+  - [x] When should I add in "corrupting" informaiton (IE unknown info, incomputable info, when to "give up" on the computation?), corruption spreads with join?
+  - [x] Should the RM, dep be defined as part of the abstract domain, should they be lattices aswell?
   - [ ] This is the idea here?
         <br>
         ![alt text](image.png)
@@ -46,8 +46,18 @@ _Additional:_
 
 _Goals:_
 
-- [ ] Add read of mutable state check
+- [ ] Implement eval (get as far as possible)
+  - [ ] One of those cases is if its a read, check if its unowned mutable state.
+  - [ ] One (or maybe a few) will be method calls which will have to interact with RM
+    - NOTE: Will have to think about how to deal with potentially analyzing methods multiple times with different arguments
+  - [ ] A few will interact with IC, need to fill those out as we keep iterating
+
 - [ ] Examine tree structure for basic cases
+  - USe vprint, scala -V <- This will print "scala" like code
+  - Look for the argument that lets you see the node names directly
+    - Probably one of the -x options (-Xprint-types?)
+    - -Vprint:typer <- LOOK UP THE PASS JUST BEFORE GLOBAL INIT CHECKER
+    - -Vprint:typer -Yplain-printer <- Try this one for examining trees. Compare it to just the Vprint:typer one. This one has the actual type names of nodes (useful for eval() implementations)
 
 ## Future todos (Add and remove as needed)
 
@@ -59,3 +69,12 @@ _Goals:_
 - Add back edge traces, logging
 - Define abstract domain, lattice, for the precise checker
 - Implement mutable read detection on simple domain
+
+## Notes:
+
+- Scala staging allows branches, may need special access <-- look into it, but may not be possible
+  - Main benefit of staging, is that others can push to my pr
+  - This isn't really a benefit for me though
+- Lightest option (backup): create a fork in my own github
+- L1 x L2 => Still a lattice
+- f -> L => Still a lattice
