@@ -1,0 +1,495 @@
+[info] compiling 1 Scala source to /Users/rmaxin/Developer/URA/scala3/compiler/target/scala3-compiler-nonbootstrapped/scala-3.8.4-RC2/classes ...[0J
+[0J[info] Test run dotty.tools.dotc.CompilationTests started[0J
+[0J[info] Test dotty.tools.dotc.CompilationTests.parallelBackend started[0J
+[0J[info] Test dotty.tools.dotc.CompilationTests.negAll started[0J
+[0J[info] Test dotty.tools.dotc.CompilationTests.runAll started[0J
+[0J[info] Test dotty.tools.dotc.CompilationTests.pickling started[0J
+[0J[info] Test dotty.tools.dotc.CompilationTests.rewrites started[0J
+[0J[info] Test dotty.tools.dotc.CompilationTests.pos started[0J
+[0J[info] Test dotty.tools.dotc.CompilationTests.warn started[0J
+[0J[info] Test dotty.tools.dotc.CompilationTests.posTwice started[0J
+[0J[info] Test dotty.tools.dotc.CompilationTests.explicitNullsNeg started[0J
+[0J[info] Test dotty.tools.dotc.CompilationTests.explicitNullsPos started[0J
+[0J[info] Test dotty.tools.dotc.CompilationTests.explicitNullsRun started[0J
+[0J[info] Test dotty.tools.dotc.CompilationTests.checkInitGlobal started[0J
+[0J[                                        ] completed (0/46, 0 failed, 0s)[0J[                                        ] completed (0/46, 0 failed, 0s)[0J[                                        ] completed (0/46, 0 failed, 0s)[0J[                                        ] completed (0/46, 0 failed, 0s)[0J[                                        ] completed (0/46, 0 failed, 0s)[0J[                                        ] completed (0/46, 0 failed, 1s)[0J[                                        ] completed (0/46, 0 failed, 1s)[0J[                                        ] completed (0/46, 0 failed, 1s)[0J[                                        ] completed (0/46, 0 failed, 1s)[0J[                                        ] completed (0/46, 0 failed, 1s)[0J[                                        ] completed (0/46, 0 failed, 2s)[0J[                                        ] completed (0/46, 0 failed, 2s)[0J[                                        ] completed (0/46, 0 failed, 2s)[0J[                                        ] completed (0/46, 0 failed, 2s)[0J[                                        ] completed (0/46, 0 failed, 2s)[0J[                                        ] completed (0/46, 0 failed, 3s)[0J[                                        ] completed (0/46, 0 failed, 3s)[0J[                                        ] completed (0/46, 0 failed, 3s)[0J[                                        ] completed (0/46, 0 failed, 3s)[0J[                                        ] completed (0/46, 0 failed, 3s)[0J[                                        ] completed (0/46, 0 failed, 4s)[0J[                                        ] completed (0/46, 0 failed, 4s)[0J
+Warnings found on incorrect row numbers when compiling tests/init-global/warn/i15883.scala
+Unfulfilled expectations:
+tests/init-global/warn/i15883.scala:1
+Unexpected warnings:
+tests/init-global/warn/i15883.scala:2
+-> following the diagnostics:
+ at 2: Access non-initialized value b. Calling trace:
+└── val a = b // warn	[ i15883.scala:1 ]
+            ^
+
+Wrong number of warnings encountered when compiling tests/init-global/warn/resolve-parent-this.scala
+expected: 2, actual: 0
+Unfulfilled expectations:
+tests/init-global/warn/resolve-parent-this.scala:3
+tests/init-global/warn/resolve-parent-this.scala:7
+
+Wrong number of warnings encountered when compiling tests/init-global/warn/call-before-super3.scala
+expected: 1, actual: 0
+Unfulfilled expectations:
+tests/init-global/warn/call-before-super3.scala:2
+
+Wrong number of warnings encountered when compiling tests/init-global/warn/call-before-super.scala
+expected: 1, actual: 0
+Unfulfilled expectations:
+tests/init-global/warn/call-before-super.scala:3
+
+Wrong number of warnings encountered when compiling tests/init-global/warn/return2.scala
+expected: 2, actual: 1
+Unfulfilled expectations:
+tests/init-global/warn/return2.scala:3
+
+-> following the diagnostics:
+ at 6: Non local returns are no longer supported; use `boundary` and `boundary.break` in `scala.util` instead
+
+Wrong number of warnings encountered when compiling tests/init-global/warn/global-cycle2.scala
+expected: 1, actual: 0
+Unfulfilled expectations:
+tests/init-global/warn/global-cycle2.scala:6
+
+Wrong number of warnings encountered when compiling tests/init-global/warn/global-cycle4.scala
+expected: 1, actual: 0
+Unfulfilled expectations:
+tests/init-global/warn/global-cycle4.scala:10
+[=====>                                  ] completed (7/46, 7 failed, 4s)[0J[=====>                                  ] completed (7/46, 7 failed, 4s)[0J[=====>                                  ] completed (7/46, 7 failed, 4s)[0J[=====>                                  ] completed (7/46, 7 failed, 5s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/t9261.scala
+expected: 2, actual: 1
+Unfulfilled expectations:
+tests/init-global/warn/t9261.scala:3
+
+-> following the diagnostics:
+ at 2: Cyclic initialization: object Buy -> object Sell -> object Buy
+[=====>                                  ] completed (8/46, 8 failed, 5s)[0J[=====>                                  ] completed (8/46, 8 failed, 5s)[0J[======>                                 ] completed (9/46, 8 failed, 5s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/global-cycle3.scala
+expected: 1, actual: 0
+Unfulfilled expectations:
+tests/init-global/warn/global-cycle3.scala:2
+[=======>                                ] completed (10/46, 9 failed, 6s)[0J[=======>                                ] completed (10/46, 9 failed, 6s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/resolve-outer-of-parent.scala
+expected: 1, actual: 0
+Unfulfilled expectations:
+tests/init-global/warn/resolve-outer-of-parent.scala:7
+[========>                               ] completed (11/46, 10 failed, 6s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/global-cycle1.scala
+expected: 2, actual: 1
+Unfulfilled expectations:
+tests/init-global/warn/global-cycle1.scala:6
+
+-> following the diagnostics:
+ at 1: Cyclic initialization: object A -> object B -> object A
+[=========>                              ] completed (12/46, 11 failed, 6s)[0JOutput from 'tests/init-global/warn/global-cycle5.scala' did not match check file. Actual output:
+-- Warning: tests/init-global/warn/global-cycle5.scala:10:17 -----------------------------------------------------------
+10 |  val b: Int = A.a.foo() // warn
+               ^^^
+               Accessing mutable state of object A during initialization of object B.
+
+
+Test output dumped in: tests/init-global/warn/global-cycle5.check.out
+  See diff of the checkfile (`--color=always` for colored diff)
+    > git diff --no-index -- tests/init-global/warn/global-cycle5.check tests/init-global/warn/global-cycle5.check.out
+  Replace checkfile with current output
+    > mv tests/init-global/warn/global-cycle5.check.out tests/init-global/warn/global-cycle5.check
+      
+[==========>                             ] completed (13/46, 12 failed, 6s)[0J[==========>                             ] completed (13/46, 12 failed, 7s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/i9176.scala
+expected: 2, actual: 1
+Unfulfilled expectations:
+tests/init-global/warn/i9176.scala:3
+
+-> following the diagnostics:
+ at 2: Cyclic initialization: object A -> object B -> object A
+[===========>                            ] completed (14/46, 13 failed, 7s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/call-before-super2.scala
+expected: 1, actual: 0
+Unfulfilled expectations:
+tests/init-global/warn/call-before-super2.scala:4
+[============>                           ] completed (15/46, 14 failed, 7s)[0J[============>                           ] completed (15/46, 14 failed, 7s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/global-cycle7.scala
+expected: 2, actual: 1
+Unfulfilled expectations:
+tests/init-global/warn/global-cycle7.scala:6
+
+-> following the diagnostics:
+ at 1: Cyclic initialization: object A -> object B -> object A
+[============>                           ] completed (16/46, 15 failed, 7s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/mutable-read2.scala
+expected: 1, actual: 2
+
+Unexpected warnings:
+tests/init-global/warn/mutable-read2.scala:3
+-> following the diagnostics:
+ at 3: Accessing mutable state of object A during initialization of object B.
+ at 10: Accessing mutable state of object A during initialization of object B.
+Output from 'tests/init-global/warn/global-irrelevance1.scala' did not match check file. Actual output:
+-- Warning: tests/init-global/warn/global-irrelevance1.scala:5:12 ------------------------------------------------------
+5 |  var y = A.x * 2 // warn
+          ^^^
+          Accessing mutable state of object A during initialization of object B.
+
+
+Test output dumped in: tests/init-global/warn/global-irrelevance1.check.out
+  See diff of the checkfile (`--color=always` for colored diff)
+    > git diff --no-index -- tests/init-global/warn/global-irrelevance1.check tests/init-global/warn/global-irrelevance1.check.out
+  Replace checkfile with current output
+    > mv tests/init-global/warn/global-irrelevance1.check.out tests/init-global/warn/global-irrelevance1.check
+      
+[==============>                         ] completed (18/46, 17 failed, 8s)[0J[==============>                         ] completed (18/46, 17 failed, 8s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/patmat-unapplySeq.scala
+expected: 1, actual: 2
+
+Unexpected warnings:
+tests/init-global/warn/patmat-unapplySeq.scala:5
+-> following the diagnostics:
+ at 5: Accessing mutable state of object A during initialization of object B.
+ at 8: Accessing mutable state of object A during initialization of object B.
+
+Warnings found on incorrect row numbers when compiling tests/init-global/warn/inner-extends-outer.scala
+Unfulfilled expectations:
+tests/init-global/warn/inner-extends-outer.scala:22
+Unexpected warnings:
+tests/init-global/warn/inner-extends-outer.scala:20
+-> following the diagnostics:
+ at 20: Could not verify that the method argument is transitively initialized (Hot). It was found to be a non-transitively initialized (Warm) object of type (class Outer) { outer = a transitively initialized (Hot) object, args = (an uninitialized (Cold) object) }. Only transitively initialized arguments may be passed to methods (except constructors). Calling trace:
+├── object O extends T {	[ inner-extends-outer.scala:15 ]
+│   ^
+└── val f1 = foo(new Outer(this))	[ inner-extends-outer.scala:20 ]
+                 ^^^^^^^^^^^^^^^
+
+Promoting the value to transitively initialized (Hot) failed due to the following problem:
+Could not verify that the field value t is transitively initialized (Hot). It was found to be an uninitialized (Cold) object. Promotion trace:
+└── class Outer(val t: T) {	[ inner-extends-outer.scala:9 ]
+                ^^^^^^^^
+[================>                       ] completed (20/46, 19 failed, 8s)[0J[================>                       ] completed (20/46, 19 failed, 8s)[0J[================>                       ] completed (20/46, 19 failed, 9s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/local-class.scala
+expected: 1, actual: 0
+Unfulfilled expectations:
+tests/init-global/warn/local-class.scala:2
+[=================>                      ] completed (21/46, 20 failed, 9s)[0J[=================>                      ] completed (21/46, 20 failed, 9s)[0J[=================>                      ] completed (21/46, 20 failed, 9s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/unapply-implicit-arg3.scala
+expected: 1, actual: 0
+Unfulfilled expectations:
+tests/init-global/warn/unapply-implicit-arg3.scala:4
+[==================>                     ] completed (22/46, 21 failed, 9s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/lazy-local-val.scala
+expected: 1, actual: 2
+
+Unexpected warnings:
+tests/init-global/warn/lazy-local-val.scala:18
+-> following the diagnostics:
+ at 8: Could not verify that the method argument is transitively initialized (Hot). It was found to be a function where "this" is (the original object of type (object A) where initialization checking started). Only transitively initialized arguments may be passed to methods (except constructors). Calling trace:
+├── object A:	[ lazy-local-val.scala:1 ]
+│   ^
+└── val box = f(n)   // warn	[ lazy-local-val.scala:8 ]
+                ^
+
+Promoting the value to transitively initialized (Hot) failed due to the following problem:
+Access non-initialized value n. Promotion trace:
+└── val box = f(n)   // warn	[ lazy-local-val.scala:8 ]
+                ^
+
+ at 18: Could not verify that the method argument is transitively initialized (Hot). It was found to be a function where "this" is (the original object of type (object B) where initialization checking started). Only transitively initialized arguments may be passed to methods (except constructors). Calling trace:
+├── object B:	[ lazy-local-val.scala:11 ]
+│   ^
+└── val box = f(n)	[ lazy-local-val.scala:18 ]
+                ^
+
+Promoting the value to transitively initialized (Hot) failed due to the following problem:
+Access non-initialized value n. Promotion trace:
+└── val box = f(n)	[ lazy-local-val.scala:18 ]
+                ^
+[===================>                    ] completed (23/46, 22 failed, 10s)[0J[===================>                    ] completed (24/46, 22 failed, 10s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/mutable-read4.scala
+expected: 1, actual: 2
+
+Unexpected warnings:
+tests/init-global/warn/mutable-read4.scala:9
+-> following the diagnostics:
+ at 9: Accessing mutable state of object A during initialization of object B.
+ at 10: Accessing mutable state of object A during initialization of object B.
+
+Wrong number of warnings encountered when compiling tests/init-global/warn/global-irrelevance3.scala
+expected: 1, actual: 0
+Unfulfilled expectations:
+tests/init-global/warn/global-irrelevance3.scala:9
+[=====================>                  ] completed (26/46, 24 failed, 10s)[0J[=====================>                  ] completed (26/46, 24 failed, 10s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/global-irrelevance5.scala
+expected: 1, actual: 2
+
+Unexpected warnings:
+tests/init-global/warn/global-irrelevance5.scala:3
+-> following the diagnostics:
+ at 3: Accessing mutable state of object A during initialization of object B.
+ at 6: Accessing mutable state of object A during initialization of object B.
+[======================>                 ] completed (27/46, 25 failed, 10s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/global-irrelevance7.scala
+expected: 1, actual: 3
+
+Unexpected warnings:
+tests/init-global/warn/global-irrelevance7.scala:6
+tests/init-global/warn/global-irrelevance7.scala:7
+-> following the diagnostics:
+ at 6: Accessing mutable state of object A during initialization of object B.
+ at 7: Accessing mutable state of object A during initialization of object B.
+ at 10: Accessing mutable state of object A during initialization of object B.
+[=======================>                ] completed (28/46, 26 failed, 11s)[0J[=======================>                ] completed (28/46, 26 failed, 11s)[0J[=======================>                ] completed (28/46, 26 failed, 11s)[0J[=======================>                ] completed (28/46, 26 failed, 11s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/global-region1.scala
+expected: 1, actual: 0
+Unfulfilled expectations:
+tests/init-global/warn/global-region1.scala:3
+[========================>               ] completed (29/46, 27 failed, 11s)[0J[========================>               ] completed (29/46, 27 failed, 12s)[0J[========================>               ] completed (29/46, 27 failed, 12s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/return.scala
+expected: 1, actual: 0
+Unfulfilled expectations:
+tests/init-global/warn/return.scala:4
+
+Wrong number of warnings encountered when compiling tests/init-global/warn/context-sensitivity.scala
+expected: 1, actual: 0
+Unfulfilled expectations:
+tests/init-global/warn/context-sensitivity.scala:9
+Output from 'tests/init-global/warn/unapply-implicit-arg.scala' did not match check file. Actual output:
+-- Warning: tests/init-global/warn/unapply-implicit-arg.scala:11:6 -----------------------------------------------------
+11 |  val i2: Int = i2 match // warn
+      ^
+      Access non-initialized value i2. Calling trace:
+      ├── object Bar {	[ unapply-implicit-arg.scala:1 ]
+      │   ^
+      └── val i2: Int = i2 match // warn	[ unapply-implicit-arg.scala:11 ]
+                        ^^
+
+
+Test output dumped in: tests/init-global/warn/unapply-implicit-arg.check.out
+  See diff of the checkfile (`--color=always` for colored diff)
+    > git diff --no-index -- tests/init-global/warn/unapply-implicit-arg.check tests/init-global/warn/unapply-implicit-arg.check.out
+  Replace checkfile with current output
+    > mv tests/init-global/warn/unapply-implicit-arg.check.out tests/init-global/warn/unapply-implicit-arg.check
+      
+[==========================>             ] completed (32/46, 30 failed, 12s)[0JOutput from 'tests/init-global/warn/global-irrelevance2.scala' did not match check file. Actual output:
+-- Warning: tests/init-global/warn/global-irrelevance2.scala:5:6 -------------------------------------------------------
+5 |  A.x =  b * 2 // warn
+  ^^^^^^^^^^^^
+  Accessing mutable state of object A during initialization of object B.
+
+
+Test output dumped in: tests/init-global/warn/global-irrelevance2.check.out
+  See diff of the checkfile (`--color=always` for colored diff)
+    > git diff --no-index -- tests/init-global/warn/global-irrelevance2.check tests/init-global/warn/global-irrelevance2.check.out
+  Replace checkfile with current output
+    > mv tests/init-global/warn/global-irrelevance2.check.out tests/init-global/warn/global-irrelevance2.check
+      
+[===========================>            ] completed (33/46, 31 failed, 12s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/mutable-read1.scala
+expected: 1, actual: 2
+
+Unexpected warnings:
+tests/init-global/warn/mutable-read1.scala:9
+-> following the diagnostics:
+ at 9: Accessing mutable state of object A during initialization of object B.
+ at 10: Accessing mutable state of object A during initialization of object B.
+[============================>           ] completed (34/46, 32 failed, 12s)[0J[============================>           ] completed (34/46, 32 failed, 13s)[0J[============================>           ] completed (34/46, 32 failed, 13s)[0J[============================>           ] completed (34/46, 32 failed, 13s)[0J[============================>           ] completed (34/46, 32 failed, 13s)[0J[============================>           ] completed (34/46, 32 failed, 13s)[0J[============================>           ] completed (34/46, 32 failed, 14s)[0J[============================>           ] completed (34/46, 32 failed, 14s)[0JOutput from 'tests/init-global/warn/mutable-read6.scala' did not match check file. Actual output:
+-- Warning: tests/init-global/warn/mutable-read6.scala:7:35 ------------------------------------------------------------
+7 |    final def source: SourceFile = _source // warn
+                                   ^^^^^^^
+                             Accessing mutable state of object Contexts during initialization of object Implicits.
+
+
+Test output dumped in: tests/init-global/warn/mutable-read6.check.out
+  See diff of the checkfile (`--color=always` for colored diff)
+    > git diff --no-index -- tests/init-global/warn/mutable-read6.check tests/init-global/warn/mutable-read6.check.out
+  Replace checkfile with current output
+    > mv tests/init-global/warn/mutable-read6.check.out tests/init-global/warn/mutable-read6.check
+      
+[=============================>          ] completed (35/46, 33 failed, 14s)[0J[=============================>          ] completed (35/46, 33 failed, 14s)[0J[=============================>          ] completed (35/46, 33 failed, 15s)[0J[=============================>          ] completed (35/46, 33 failed, 15s)[0J[=============================>          ] completed (35/46, 33 failed, 15s)[0J[=============================>          ] completed (35/46, 33 failed, 15s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/global-local-var.scala
+expected: 1, actual: 0
+Unfulfilled expectations:
+tests/init-global/warn/global-local-var.scala:10
+[==============================>         ] completed (36/46, 34 failed, 16s)[0JOutput from 'tests/init-global/warn/partial-ordering.scala' did not match check file. Actual output:
+-- Warning: tests/init-global/warn/partial-ordering.scala:1:7 ----------------------------------------------------------
+1 |object Names: // warn
+       ^
+       Cyclic initialization: object Names -> object MethodName -> object Names
+
+
+[==============================>         ] completed (36/46, 34 failed, 16s)[0JTest output dumped in: tests/init-global/warn/partial-ordering.check.out
+  See diff of the checkfile (`--color=always` for colored diff)
+    > git diff --no-index -- tests/init-global/warn/partial-ordering.check tests/init-global/warn/partial-ordering.check.out
+  Replace checkfile with current output
+    > mv tests/init-global/warn/partial-ordering.check.out tests/init-global/warn/partial-ordering.check
+      
+
+Wrong number of warnings encountered when compiling tests/init-global/warn/global-cycle14.scala
+expected: 2, actual: 1
+Unfulfilled expectations:
+tests/init-global/warn/global-cycle14.scala:13
+
+-> following the diagnostics:
+ at 8: Cyclic initialization: object A -> object B -> object A
+[================================>       ] completed (38/46, 36 failed, 16s)[0JOutput from 'tests/init-global/warn/mutable-read3.scala' did not match check file. Actual output:
+-- Warning: tests/init-global/warn/mutable-read3.scala:9:19 ------------------------------------------------------------
+9 |  val x: Int = box.value // warn
+               ^^^^^^^^^
+               Accessing mutable state of object A during initialization of object B.
+
+
+Test output dumped in: tests/init-global/warn/mutable-read3.check.out
+  See diff of the checkfile (`--color=always` for colored diff)
+    > git diff --no-index -- tests/init-global/warn/mutable-read3.check tests/init-global/warn/mutable-read3.check.out
+  Replace checkfile with current output
+    > mv tests/init-global/warn/mutable-read3.check.out tests/init-global/warn/mutable-read3.check
+      
+[================================>       ] completed (39/46, 37 failed, 16s)[0J[================================>       ] completed (39/46, 37 failed, 16s)[0J[================================>       ] completed (39/46, 37 failed, 17s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/global-irrelevance4.scala
+expected: 1, actual: 0
+Unfulfilled expectations:
+tests/init-global/warn/global-irrelevance4.scala:8
+[=================================>      ] completed (40/46, 38 failed, 17s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/unapply-implicit-arg2.scala
+expected: 1, actual: 0
+Unfulfilled expectations:
+tests/init-global/warn/unapply-implicit-arg2.scala:7
+[==================================>     ] completed (41/46, 39 failed, 17s)[0JOutput from 'tests/init-global/warn/mutable-read5.scala' did not match check file. Actual output:
+-- Warning: tests/init-global/warn/mutable-read5.scala:4:38 ------------------------------------------------------------
+4 |  def name(s: String): Name = Name(0, chrs.length) // warn
+                                      ^^^^
+                                 Accessing mutable state of object Names during initialization of object StdNames.
+
+
+Test output dumped in: tests/init-global/warn/mutable-read5.check.out
+  See diff of the checkfile (`--color=always` for colored diff)
+    > git diff --no-index -- tests/init-global/warn/mutable-read5.check tests/init-global/warn/mutable-read5.check.out
+  Replace checkfile with current output
+    > mv tests/init-global/warn/mutable-read5.check.out tests/init-global/warn/mutable-read5.check
+      
+
+Wrong number of warnings encountered when compiling tests/init-global/warn/unsoundness.scala
+expected: 1, actual: 0
+Unfulfilled expectations:
+tests/init-global/warn/unsoundness.scala:12
+[====================================>   ] completed (43/46, 41 failed, 17s)[0J
+Wrong number of warnings encountered when compiling tests/init-global/warn/i11262.scala
+expected: 2, actual: 1
+Unfulfilled expectations:
+tests/init-global/warn/i11262.scala:2
+
+-> following the diagnostics:
+ at 1: Cyclic initialization: object A -> object B -> object A
+
+Wrong number of warnings encountered when compiling tests/init-global/warn/global-irrelevance6.scala
+expected: 1, actual: 2
+
+Unexpected warnings:
+tests/init-global/warn/global-irrelevance6.scala:6
+-> following the diagnostics:
+ at 6: Accessing mutable state of object A during initialization of object B.
+ at 9: Accessing mutable state of object A during initialization of object B.
+
+Wrong number of warnings encountered when compiling tests/init-global/warn/global-cycle10.scala
+expected: 2, actual: 0
+Unfulfilled expectations:
+tests/init-global/warn/global-cycle10.scala:10
+tests/init-global/warn/global-cycle10.scala:13
+[=======================================>] completed (46/46, 44 failed, 17s)[0J
+[0J[error] Test dotty.tools.dotc.CompilationTests.checkInitGlobal failed: java.lang.AssertionError: Warn test failed, but should not, reasons:[0J
+[0J[error] encountered 44 test failure(s):[0J
+[0J[error]   - generic failure (see test output), took 17.993 sec[0J
+[0J[error]     at dotty.tools.vulpix.ParallelTesting$CompilationTest.checkPass(ParallelTesting.scala:1328)[0J
+[0J[error]     at dotty.tools.vulpix.ParallelTesting$CompilationTest.checkWarnings(ParallelTesting.scala:1243)[0J
+[0J[error]     at dotty.tools.dotc.CompilationTests.checkInitGlobal(CompilationTests.scala:287)[0J
+[0J[error]     at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)[0J
+[0J[error]     at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)[0J
+[0J[error]     at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)[0J
+[0J[error]     at java.lang.reflect.Method.invoke(Method.java:569)[0J
+[0J[error]     ...[0J
+[0J[info] Test dotty.tools.dotc.CompilationTests.fuzzyAll started[0J
+[0J[info] Test dotty.tools.dotc.CompilationTests.genericJavaSignatures started[0J
+[0J[info] Test dotty.tools.dotc.CompilationTests.safeInit started[0J
+[0J[info] Test dotty.tools.dotc.CompilationTests.explicitNullsWarn started[0J
+[0J[0J
+================================================================================[0J
+Test Report[0J
+================================================================================[0J
+[0J
+0 suites passed, 1 failed, 1 total[0J
+    tests/init-global/warn/global-local-var.scala failed[0J
+    tests/init-global/warn/global-irrelevance6.scala failed[0J
+    tests/init-global/warn/global-irrelevance5.scala failed[0J
+    tests/init-global/warn/partial-ordering.scala failed[0J
+    tests/init-global/warn/global-irrelevance3.scala failed[0J
+    tests/init-global/warn/global-cycle4.scala failed[0J
+    tests/init-global/warn/lazy-local-val.scala failed[0J
+    tests/init-global/warn/resolve-parent-this.scala failed[0J
+    tests/init-global/warn/return2.scala failed[0J
+    tests/init-global/warn/call-before-super3.scala failed[0J
+    tests/init-global/warn/mutable-read1.scala failed[0J
+    tests/init-global/warn/call-before-super.scala failed[0J
+    tests/init-global/warn/t9261.scala failed[0J
+    tests/init-global/warn/global-cycle10.scala failed[0J
+    tests/init-global/warn/global-cycle1.scala failed[0J
+    tests/init-global/warn/mutable-read4.scala failed[0J
+    tests/init-global/warn/i9176.scala failed[0J
+    tests/init-global/warn/global-cycle2.scala failed[0J
+    tests/init-global/warn/global-irrelevance4.scala failed[0J
+    tests/init-global/warn/i11262.scala failed[0J
+    tests/init-global/warn/global-cycle14.scala failed[0J
+    tests/init-global/warn/global-cycle3.scala failed[0J
+    tests/init-global/warn/global-cycle5.scala failed[0J
+    tests/init-global/warn/global-irrelevance2.scala failed[0J
+    tests/init-global/warn/i15883.scala failed[0J
+    tests/init-global/warn/context-sensitivity.scala failed[0J
+    tests/init-global/warn/unapply-implicit-arg2.scala failed[0J
+    tests/init-global/warn/mutable-read5.scala failed[0J
+    tests/init-global/warn/call-before-super2.scala failed[0J
+    tests/init-global/warn/patmat-unapplySeq.scala failed[0J
+    tests/init-global/warn/return.scala failed[0J
+    tests/init-global/warn/global-region1.scala failed[0J
+    tests/init-global/warn/local-class.scala failed[0J
+    tests/init-global/warn/global-irrelevance1.scala failed[0J
+    tests/init-global/warn/global-irrelevance7.scala failed[0J
+    tests/init-global/warn/mutable-read2.scala failed[0J
+    tests/init-global/warn/unapply-implicit-arg3.scala failed[0J
+    tests/init-global/warn/mutable-read6.scala failed[0J
+    tests/init-global/warn/global-cycle7.scala failed[0J
+    tests/init-global/warn/unsoundness.scala failed[0J
+    tests/init-global/warn/inner-extends-outer.scala failed[0J
+    tests/init-global/warn/unapply-implicit-arg.scala failed[0J
+    tests/init-global/warn/resolve-outer-of-parent.scala failed[0J
+    tests/init-global/warn/mutable-read3.scala failed[0J
+[0J    parallelBackend skipped[0J
+    compileNeg skipped[0J
+    runAll skipped[0J
+    testPickling skipped[0J
+    rewrites skipped[0J
+    compilePos skipped[0J
+    compileWarn skipped[0J
+    posTwice skipped[0J
+    explicitNullsNeg skipped[0J
+    explicitNullsPos skipped[0J
+    tests/explicit-nulls/special/i25722 skipped[0J
+    explicitNullsRun skipped[0J
+    compileFuzzy skipped[0J
+    genericJavaSignatures skipped[0J
+    safeInit skipped[0J
+    checkInit/i12128 skipped[0J
+    checkInit/tasty-error/val-or-defdef skipped[0J
+    checkInit/tasty-error/typedef skipped[0J
+    explicitNullsWarn skipped[0J
+[0J
+--------------------------------------------------------------------------------[0J
+Note - reproduction instructions have been dumped to log file:[0J
+    /Users/rmaxin/Developer/URA/scala3/testlogs/tests-2026-08-14/tests-2026-08-14-T10-09-57.log[0J
+--------------------------------------------------------------------------------[0J
+[0J[info] Test run dotty.tools.dotc.CompilationTests finished: 1 failed, 0 ignored, 16 total, 22.928s[0J
+[0J[info] Test run dotty.tools.dotc.BootstrappedOnlyCompilationTests started[0J
+[0J[info] Test run dotty.tools.dotc.BootstrappedOnlyCompilationTests finished: 0 failed, 0 ignored, 0 total, 0.001s[0J
+[0J[info] Test run dotty.tools.dotc.coverage.CoverageTests started[0J
+[0J[info] Test run dotty.tools.dotc.coverage.CoverageTests finished: 0 failed, 0 ignored, 0 total, 0.0s[0J
+[0J[error] Failed: Total 16, Failed 1, Errors 0, Passed 15[0J
+[0J[error] Failed tests:[0J
+[0J[error] 	dotty.tools.dotc.CompilationTests[0J
+[0J[error] elapsed time: 32 s
+[0J
