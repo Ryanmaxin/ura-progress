@@ -48,12 +48,12 @@ _Additional:_
 
 _Goals:_
 
-- [ ] Implement eval (get as far as possible)
-  - [ ] One of those cases is if its a read, check if its unowned mutable state.
-  - [ ] One (or maybe a few) will be method calls which will have to interact with RM
+- [x] Implement eval (get as far as possible)
+  - [x] One of those cases is if its a read, check if its unowned mutable state.
+  - [x] One (or maybe a few) will be method calls which will have to interact with RM
     - NOTE: Will have to think about how to deal with potentially analyzing methods multiple times with different arguments
-  - [ ] A few will interact with IC, need to fill those out as we keep iterating
-  - [ ] Look into the repeated iteration/finding the fixed point
+  - [x] A few will interact with IC, need to fill those out as we keep iterating
+  - [x] Look into the repeated iteration/finding the fixed point
 
 - [ ] Examine tree structure for basic cases
   - USe vprint, scala -V <- This will print "scala" like code
@@ -82,10 +82,18 @@ _Additional:_
 - Cool scala feature: extension
 - [ ] Do I want to replicate the current code?
 - [ ] eval is way overkill for our needs, is it still good to keep it?
+- [ ] Thoughts on "Scan State". What is abstract domain, what is machinery?
+- [ ] AI recommends passing it everywhere to avoid implicit state. My mind says to just make it a member of each global object, like summaries.
+- [ ] Should eval() return our Set[OwnedClass]?
+- [ ] What exactly is Apply?
 
 ### June 23, 2026 - June 29, 2026
 
 #### Progress
+
+_Goals:_
+
+- [ ] Add local environment to the abstract domain
 
 ## Future todos (Add and remove as needed)
 
