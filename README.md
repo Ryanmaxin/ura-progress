@@ -1,8 +1,10 @@
 # Global Initialization Checker Rewrite Progress
 
-## Written by Ryan Maxin
+### Written by Ryan Maxin
 
 [Link](https://ryanmaxin.github.io/ura-progress/)
+
+[Code here](https://github.com/Ryanmaxin/scala3)
 
 ## Weeks
 
@@ -33,14 +35,14 @@ _Additional:_
   - [x] What should be the top exactly?
   - [x] When should I add in "corrupting" informaiton (IE unknown info, incomputable info, when to "give up" on the computation?), corruption spreads with join?
   - [x] Should the RM, dep be defined as part of the abstract domain, should they be lattices aswell?
-  - [ ] This is the idea here?
+  - [x] This is the idea here?
         <br>
         ![alt text](image.png)
-  - [ ] I was week on order theory, LUB, GLB, Kleene's least fixed point theorem.
-    - [ ] Kleen's least point formula is really simple in practice but it is written complicated. It seems trivially true in my case.
-    - [ ] The example I started with here is super simple to create our lattice, the hard part is making sure its a lattice, how difficult is it?
+  - [x] I was weak on order theory, LUB, GLB, Kleene's least fixed point theorem.
+    - [x] Kleene's least point formula is really simple in practice but it is written complicated. It seems trivially true in my case.
+    - [x] The example I started with here is super simple to create our lattice, the hard part is making sure its a lattice, how difficult is it?
 
-### June 8, 2026 - June 15, 2026
+### June 16, 2026 - June 22, 2026
 
 #### Progress
 
@@ -51,13 +53,39 @@ _Goals:_
   - [ ] One (or maybe a few) will be method calls which will have to interact with RM
     - NOTE: Will have to think about how to deal with potentially analyzing methods multiple times with different arguments
   - [ ] A few will interact with IC, need to fill those out as we keep iterating
+  - [ ] Look into the repeated iteration/finding the fixed point
 
 - [ ] Examine tree structure for basic cases
   - USe vprint, scala -V <- This will print "scala" like code
   - Look for the argument that lets you see the node names directly
     - Probably one of the -x options (-Xprint-types?)
     - -Vprint:typer <- LOOK UP THE PASS JUST BEFORE GLOBAL INIT CHECKER
-    - -Vprint:typer -Yplain-printer <- Try this one for examining trees. Compare it to just the Vprint:typer one. This one has the actual type names of nodes (useful for eval() implementations)
+    - -Vprint:typer -Yplain-printer <- Try this one for examining trees. Compare it to just the Vprint:typer one. This one has the actual type names of nodes (useful for eval() implementations
+
+_Additional:_
+
+- [x] [Fork code here](https://github.com/Ryanmaxin/scala3)
+  - Scala staging allows branches, may need special access
+    - Main benefit of staging, is that others can push to my pr
+    - This isn't really a benefit for me though
+  - I chose to just create a fork
+- [x] Finished complete abstract domain
+  - _NOTE:_
+    - L1 x L2 => Still a lattice
+    - f -> L => Still a lattice
+
+#### Topics
+
+- [ ] Do we know our full lattice actually has a fixed height? It seems intuitive to me but you told me that in the past with nested classes we had some issues.
+- [ ] Too many details for the abstract domain? What do you prefer?
+- [ ] How much complexity/creativty in the data structures?
+- Cool scala feature: extension
+- [ ] Do I want to replicate the current code?
+- [ ] eval is way overkill for our needs, is it still good to keep it?
+
+### June 23, 2026 - June 29, 2026
+
+#### Progress
 
 ## Future todos (Add and remove as needed)
 
@@ -69,12 +97,6 @@ _Goals:_
 - Add back edge traces, logging
 - Define abstract domain, lattice, for the precise checker
 - Implement mutable read detection on simple domain
+- Look into optimizations for the init checker
 
 ## Notes:
-
-- Scala staging allows branches, may need special access <-- look into it, but may not be possible
-  - Main benefit of staging, is that others can push to my pr
-  - This isn't really a benefit for me though
-- Lightest option (backup): create a fork in my own github
-- L1 x L2 => Still a lattice
-- f -> L => Still a lattice
