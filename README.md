@@ -80,16 +80,16 @@ _Additional:_
 - [x] Too many details for the abstract domain? What do you prefer?
 - [x] How much complexity/creativty in the data structures?
 - Cool scala feature: extension
-- [ ] Do I want to replicate the current code?
-- [ ] eval is way overkill for our needs, is it still good to keep it?
-- [ ] Thoughts on "Scan State". What is abstract domain, what is machinery?
-- [ ] AI recommends passing it everywhere to avoid implicit state. My mind says to just make it a member of each global object, like summaries.
-- [ ] Should eval() return our Set[OwnedClass]?
-- [ ] What exactly is Apply?
-- [ ] Do we actually want visibleObjects?
+- [x] Do I want to replicate the current code?
+- [x] eval is way overkill for our needs, is it still good to keep it?
+- [x] Thoughts on "Scan State". What is abstract domain, what is machinery?
+- [x] AI recommends passing it everywhere to avoid implicit state. My mind says to just make it a member of each global object, like summaries.
+- [x] Should eval() return our Set[OwnedClass]?
+- [x] What exactly is Apply?
+- [x] Do we actually want visibleObjects?
 - [ ] Idea: give mutables a type? Check on that
 - [ ] Idea: Graph reachability URA?
-- [ ] Idea of initializers being ran just like methods?
+- [x] Idea of initializers being ran just like methods?
 
 ### June 23, 2026 - June 29, 2026
 
@@ -97,7 +97,17 @@ _Additional:_
 
 _Goals:_
 
-- [ ] Add local environment to the abstract domain
+<!-- - [ ] Add local environment to the abstract domain -->
+
+- [ ] Make sure all of the tree matching cases are covered (make the default case crash) (fix as they come up)
+- [ ] Unify method exploration and class init
+- [ ] Fix sel @ Select()
+  - [ ] Clean up valueOf
+- [ ] Make improvements suggested from the notes section
+- [ ] Get it running on the existing tests (fix some bugs)
+  - [ ] Classify existing tests (more precise one will fix?)
+  - [ ] Maybe make some fancier tests?
+- [ ] Turn back on instance checker pass for global init
 
 ## Future todos (Add and remove as needed)
 
@@ -146,3 +156,31 @@ _Goals:_
 - Remove `this`: Just say that this is any IC of the wrapping global object
 
 - 10am meet
+
+Maybe use a double ended queue for drain method ordering
+
+- Could optimize iteration to be on a per iteration basis (A->B , if B changes, rerun A, if A changes, dont rerun B) (Add to todo list)
+
+- Look into how lazy is dealt with in my currnt code (look into old code, how it handles it)
+
+- old code uses evalType for context specific (like name binding)
+
+- Note: Maybe used cachedeval (in the original code) for lazy
+
+- missing lazy vals on select
+
+- Compare with ident,
+
+- Redundant joinIC(). Fix it!
+
+- If the symbol is a static object, need to do an access
+
+- In ident, need to look at the type to infer the implict qualifier (use termref) (look into old object init code) (termref has another termref as its qualifier/prefix)
+
+- Will want something like evaltype() in the old code (for select and ident at first, but probably useful elsewhere)
+
+- Fix assign
+
+- No type apply, no apply (every apply should be a call)
+
+- Check for redundant work on super calls (templates vs scan class init)
