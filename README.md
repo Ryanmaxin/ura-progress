@@ -76,9 +76,9 @@ _Additional:_
 
 #### Topics
 
-- [ ] Do we know our full lattice actually has a fixed height? It seems intuitive to me but you told me that in the past with nested classes we had some issues.
-- [ ] Too many details for the abstract domain? What do you prefer?
-- [ ] How much complexity/creativty in the data structures?
+- [x] Do we know our full lattice actually has a fixed height? It seems intuitive to me but you told me that in the past with nested classes we had some issues.
+- [x] Too many details for the abstract domain? What do you prefer?
+- [x] How much complexity/creativty in the data structures?
 - Cool scala feature: extension
 - [ ] Do I want to replicate the current code?
 - [ ] eval is way overkill for our needs, is it still good to keep it?
@@ -86,6 +86,10 @@ _Additional:_
 - [ ] AI recommends passing it everywhere to avoid implicit state. My mind says to just make it a member of each global object, like summaries.
 - [ ] Should eval() return our Set[OwnedClass]?
 - [ ] What exactly is Apply?
+- [ ] Do we actually want visibleObjects?
+- [ ] Idea: give mutables a type? Check on that
+- [ ] Idea: Graph reachability URA?
+- [ ] Idea of initializers being ran just like methods?
 
 ### June 23, 2026 - June 29, 2026
 
@@ -108,3 +112,37 @@ _Goals:_
 - Look into optimizations for the init checker
 
 ## Notes:
+
+- f -> Lattice for G is also a lattice
+  (A bunch of small lattices form a big lattice)
+
+- CLarify that dep is only on direct descendents, RM is on indirect as well
+
+- Ideas:
+- Analysis uses place in lattice as both input and output
+  - Assume some RM and IC.
+  - Run all RM, update IC and RM with new information found
+  - function is from lattice state -> new lattice state
+  - Find an input st when I give it to the analysis, the output is the same as the input
+  - IE f(x) = x
+  - In terms of implementation:
+  - 1. Simple analysis, lattice state as input, lattice state as output
+    - Just check is it the same as the input
+    - Easy but inefficent.
+    - (Ex: 1000 RM, add one more, now we scan all 1000 again)
+  - 2. Track all the changes that may happen
+    - For each of these potential changes, check what else they will affect.
+    - Like an event handler
+    - Much more complicated, and hard to get right, but much more efficent
+
+- Maybe for the super simple case we try to do part 2, since there are only a few side effects from changing something.
+- To handle new instantiated class:
+  - Idea: reprocess all RM with the new set of classes
+  - Better Idea: while processing methods, create list of call sites. I have a new IC, we revisit all the call sites for just the new IC
+
+- Super simple would be no ScanState
+
+- Definitely need to track the global object (we do)
+- Remove `this`: Just say that this is any IC of the wrapping global object
+
+- 10am meet
