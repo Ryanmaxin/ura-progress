@@ -123,7 +123,7 @@ _Additional:_
   - class Config (what if we keep going?):
 
   ```
-    var port: Int = 8080
+    var port: Int = 21
 
     class Server:
     val config: Config = loadConfigSomehow()
