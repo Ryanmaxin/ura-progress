@@ -42,7 +42,7 @@ _Additional:_
     - [x] Kleene's least point formula is really simple in practice but it is written complicated. It seems trivially true in my case.
     - [x] The example I started with here is super simple to create our lattice, the hard part is making sure its a lattice, how difficult is it?
 
-### June 16, 2026 - June 22, 2026
+### June 16, 2026 - June 26, 2026
 
 #### Progress
 
@@ -55,13 +55,6 @@ _Goals:_
   - [x] A few will interact with IC, need to fill those out as we keep iterating
   - [x] Look into the repeated iteration/finding the fixed point
 
-- [ ] Examine tree structure for basic cases
-  - USe vprint, scala -V <- This will print "scala" like code
-  - Look for the argument that lets you see the node names directly
-    - Probably one of the -x options (-Xprint-types?)
-    - -Vprint:typer <- LOOK UP THE PASS JUST BEFORE GLOBAL INIT CHECKER
-    - -Vprint:typer -Yplain-printer <- Try this one for examining trees. Compare it to just the Vprint:typer one. This one has the actual type names of nodes (useful for eval() implementations
-
 _Additional:_
 
 - [x] [Fork code here](https://github.com/Ryanmaxin/scala3)
@@ -72,7 +65,7 @@ _Additional:_
 - [x] Finished complete abstract domain
   - _NOTE:_
     - L1 x L2 => Still a lattice
-    - f -> L => Still a lattice
+    - f -> L => Still a lattice (A bunch of small lattices form a big lattice)
 
 #### Topics
 
@@ -87,27 +80,146 @@ _Additional:_
 - [x] Should eval() return our Set[OwnedClass]?
 - [x] What exactly is Apply?
 - [x] Do we actually want visibleObjects?
-- [ ] Idea: give mutables a type? Check on that
-- [ ] Idea: Graph reachability URA?
+- [x] Idea: give mutables a type? Check on that
+- [x] Idea: Graph reachability URA?
 - [x] Idea of initializers being ran just like methods?
 
-### June 23, 2026 - June 29, 2026
+### June 27, 2026 - July 3, 2026
 
 #### Progress
 
 _Goals:_
 
-<!-- - [ ] Add local environment to the abstract domain -->
-
-- [ ] Make sure all of the tree matching cases are covered (make the default case crash) (fix as they come up)
-- [ ] Unify method exploration and class init
-- [ ] Fix sel @ Select()
-  - [ ] Clean up valueOf
-- [ ] Make improvements suggested from the notes section
+- [x] Make sure all of the tree matching cases are covered (make the default case crash) (fix as they come up)
+- [?] Unify method exploration and class init
+- [?] Fix sel @ Select()
+  - [x] Clean up valueOf
+- [x] Make improvements suggested from the notes section
 - [ ] Get it running on the existing tests (fix some bugs)
   - [ ] Classify existing tests (more precise one will fix?)
   - [ ] Maybe make some fancier tests?
-- [ ] Turn back on instance checker pass for global init
+- [x] Turn back on instance checker pass for global init
+
+_Additional:_
+
+- [x] Warn on cases fallthrough instead of using valueOf
+- [ ] Make scanState implictly passed (given/using)
+- [x] Pull out warnMutableAccess into checkForMutableAccess for clarity
+- [x] Made mutable read warning no longer take OwnedClass(A,A) (IE, global object no longer held in owned class)
+- [ ] Add lazy val handling
+  - Look into how lazy is dealt with in my currnt code (look into old code, how it handles it)
+  - missing lazy vals on select
+  - Note: Maybe used cachedeval (in the original code) for lazy
+- [?] Confirmed all basic test cases are correct
+
+#### Topics
+
+- [] Should we have global object owns a global object?
+- [] For unqualified calls, what should we use as the receiver. Empty set? The current object?
+- SELECT
+  - [] Do we need a fallaback for selectedValue (indent and select)
+  - [] Did I fix select?
+  - [] On failure to find, should we inherit from qualifiers?
+  - class Config (what if we keep going?):
+
+  ```
+    var port: Int = 8080
+
+    class Server:
+    val config: Config = loadConfigSomehow()
+
+    object A:
+    val server: Server = makeServer()
+    val port = server.config.port
+  ```
+
+  - [] AI says that Assign case is needed, because we dont want to run into the select case, since we are writing, not reading? Current checker does the same thing.
+  - [] What did we want to do for the unification again? Like this?
+    ```
+    enum ReachableDef:
+      case Method(sym: Symbol)
+      case ClassInit(cls: ClassSymbol)
+    ```
+  - [] We've talked about the theory behind efficency improvements. Should i actually implement?
+  -
+
+  ```
+  // Ownership note:
+  //
+  // There are two different notions of "owner" here:
+  //
+  //   1. Symbol owner:
+  //      Where a member was declared in the program.
+  //      Example:
+  //        class Server:
+  //          val config: Config = new Config
+  //
+  //      The symbol for `config` is owned by class `Server`.
+  //      That does NOT mean a particular `Config` value is owned by `Server`.
+  //      `Server` is just the declaring class.
+  //
+  //   2. Abstract value owner:
+  //      Which global object owns the runtime mutable state represented by an
+  //      `OwnedClass(owner, cls)` fact.
+  //      Example:
+  //        object B:
+  //          val server: Server = new Server
+  //
+  //      While analyzing object `A`, the expression `B.server` should produce:
+  //        OwnedClass(B, Server)
+  //
+  // For direct static-object members, the symbol owner is enough:
+  //   object B:
+  //     val box: Box = new Box
+  //
+  //   B.box
+  //     symbol owner = B
+  //     abstract value = OwnedClass(B, Box)
+  //
+  // But for ordinary instance fields, the symbol owner is not enough:
+  //   class Server:
+  //     val config: Config = new Config
+  //
+  //   object B:
+  //     val server: Server = new Server
+  //
+  //   object A:
+  //     val c = B.server.config
+  //
+  // The symbol for `config` is owned by class `Server`, not by object `B`.
+  // However, the receiver `B.server` is owned by `B`, so we probably want:
+  //   B.server.config => OwnedClass(B, Config)
+  //
+  // This suggests the following ownership rule:
+  //
+  //   - If a selected symbol is directly owned by a static object, use that object.
+  //     Example: `B.box` => OwnedClass(B, Box)
+  //
+  //   - Otherwise, for instance selections, inherit ownership from the receiver.
+  //     Example: `B.server.config` should inherit owner `B` from `B.server`.
+  //
+  //   - If we only have a type and no useful owner information, default to `root`.
+  //     Example: while analyzing `A`, a method result of type `Box` becomes
+  //     OwnedClass(A, Box).
+  //
+  // The open design question is whether `valueFromTree(Select(...))` should
+  // currently fall back to `valueFromType(sel.tpe, root)` or instead use the
+  // receiver's owner(s), e.g. `valueFromTypeOwnedBy(sel.tpe, receiverOwners)`.
+  ```
+
+- Remainders:
+  - Check for redundant work on super calls (templates vs scan class init)
+  - If the symbol is a static object, need to do an access
+  - Redundant joinIC(). Fix it!
+- Basic test cases, look at:
+  - MutableReadDirect.scala (too course)
+  - MethodObjectCycle (misses cycle without crazy logic)
+
+### July 4, 2026 - July 9, 2026
+
+#### Progress
+
+_Goals:_
 
 ## Future todos (Add and remove as needed)
 
@@ -120,16 +232,17 @@ _Goals:_
 - Define abstract domain, lattice, for the precise checker
 - Implement mutable read detection on simple domain
 - Look into optimizations for the init checker
+- Maybe use a double ended queue for drain method ordering?
+- Read `this` context?
+- Add local environment to the abstract domain
 
-## Notes:
-
-- f -> Lattice for G is also a lattice
-  (A bunch of small lattices form a big lattice)
-
-- CLarify that dep is only on direct descendents, RM is on indirect as well
+- evaltype:
+  - old code uses evalType for context specific (like name binding)
+  - In ident, need to look at the type to infer the implict qualifier (use termref) (look into old object init code) (termref has another termref as its qualifier/prefix)
+  - Will want something like evaltype() in the old code (for select and ident at first, but probably useful elsewhere)
 
 - Ideas:
-- Analysis uses place in lattice as both input and output
+  - Analysis uses place in lattice as both input and output
   - Assume some RM and IC.
   - Run all RM, update IC and RM with new information found
   - function is from lattice state -> new lattice state
@@ -145,42 +258,18 @@ _Goals:_
     - Like an event handler
     - Much more complicated, and hard to get right, but much more efficent
 
-- Maybe for the super simple case we try to do part 2, since there are only a few side effects from changing something.
-- To handle new instantiated class:
+  - Maybe for the super simple case we try to do part 2, since there are only a few side effects from changing something.
+  - To handle new instantiated class:
   - Idea: reprocess all RM with the new set of classes
   - Better Idea: while processing methods, create list of call sites. I have a new IC, we revisit all the call sites for just the new IC
+  - Super simple would be no ScanState
+  - Examine tree structure for basic cases
+  - USe vprint, scala -V <- This will print "scala" like code
+  - Look for the argument that lets you see the node names directly
+    - Probably one of the -x options (-Xprint-types?)
+    - -Vprint:typer <- LOOK UP THE PASS JUST BEFORE GLOBAL INIT CHECKER
+    - -Vprint:typer -Yplain-printer <- Try this one for examining trees. Compare it to just the Vprint:typer one. This one has the actual type names of nodes (useful for eval() implementations)
 
-- Super simple would be no ScanState
+  - Could optimize iteration to be on a per iteration basis (A->B , if B changes, rerun A, if A changes, dont rerun B) (Add to todo list)
 
-- Definitely need to track the global object (we do)
-- Remove `this`: Just say that this is any IC of the wrapping global object
-
-- 10am meet
-
-Maybe use a double ended queue for drain method ordering
-
-- Could optimize iteration to be on a per iteration basis (A->B , if B changes, rerun A, if A changes, dont rerun B) (Add to todo list)
-
-- Look into how lazy is dealt with in my currnt code (look into old code, how it handles it)
-
-- old code uses evalType for context specific (like name binding)
-
-- Note: Maybe used cachedeval (in the original code) for lazy
-
-- missing lazy vals on select
-
-- Compare with ident,
-
-- Redundant joinIC(). Fix it!
-
-- If the symbol is a static object, need to do an access
-
-- In ident, need to look at the type to infer the implict qualifier (use termref) (look into old object init code) (termref has another termref as its qualifier/prefix)
-
-- Will want something like evaltype() in the old code (for select and ident at first, but probably useful elsewhere)
-
-- Fix assign
-
-- No type apply, no apply (every apply should be a call)
-
-- Check for redundant work on super calls (templates vs scan class init)
+## Notes:
