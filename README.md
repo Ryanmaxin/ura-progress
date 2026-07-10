@@ -215,7 +215,28 @@ _Additional:_
   - MutableReadDirect.scala (too course)
   - MethodObjectCycle (misses cycle without crazy logic)
 
-### July 4, 2026 - July 9, 2026
+### July 4, 2026 - July 10, 2026
+
+#### Progress
+
+_Goals:_
+
+- [ ] Check if array access a(42) = 5 gets turned into a.update(42,5) (FOR ASSIGN)
+- [ ] assert for assign if not ident or sel
+- [ ] simplify addObjectDependency
+- [ ] clean up select, ident (With the ICs)
+  - we really just want to pass in the full IC of the current object when evaluating a field in select or ident
+- [ ] put the scanclassinits into the method queue
+- [ ] pass the state implicitly (given/using). And put the current global object inside of scanstate (roots)
+- [ ] Look into moving the warn check inside Call to Select (maybe just remove?) Because any getter calls should already have a select inside which will be caught. IE, do not check for mutable read in call case
+- [ ] Uses of evaltype:
+  - this.x, the this is implicit, so it will be an ident instead. We need type to get the context around the ident back
+  - Will do a lot of code duplication between ident and select
+  - SPECIFICALLY: build out the structure for evaltype. The case is importing G.\*, we need to know what the qualifier is, even though its implict.
+  - Look at old checker for evaltype uses
+  - Run the full test suite
+
+### July 11, 2026 - July 17, 2026
 
 #### Progress
 
@@ -271,5 +292,9 @@ _Goals:_
     - -Vprint:typer -Yplain-printer <- Try this one for examining trees. Compare it to just the Vprint:typer one. This one has the actual type names of nodes (useful for eval() implementations)
 
   - Could optimize iteration to be on a per iteration basis (A->B , if B changes, rerun A, if A changes, dont rerun B) (Add to todo list)
+
+- May need flow sensitivity to deal with MethodObjectCycle.scala
+
+- From old global checker: We have this filterType() function which we can use to potentially filter the IC group.
 
 ## Notes:
