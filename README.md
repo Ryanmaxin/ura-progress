@@ -222,7 +222,7 @@ _Goals:_
   - ![alt text](image-1.png)
 - [x] assert for assign if not ident or sel
   - Added, come back to this after testing to see if we ever fail
-- [ ] simplify addObjectDependency
+- [x] simplify addObjectDependency
 - [x] clean up select, ident (With the ICs)
   - we really just want to pass in the full IC of the current object when evaluating a field in select or ident
 - [x] put the scanclassinits into the method queue
