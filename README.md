@@ -234,7 +234,6 @@ _Goals:_
   - Will do a lot of code duplication between ident and select
   - SPECIFICALLY: build out the structure for evaltype. The case is importing G.\*, we need to know what the qualifier is, even though its implict.
   - Look at old checker for evaltype uses
-- [ ] Run the full test suite
 
 _Additional:_
 
@@ -242,10 +241,10 @@ _Additional:_
 
 #### Topics
 
-- [] Look into moving the warn check inside Call to Select (maybe just remove?) Because any getter calls should already have a select inside which will be caught. IE, do not check for mutable read in call case
+- [x] Look into moving the warn check inside Call to Select (maybe just remove?) Because any getter calls should already have a select inside which will be caught. IE, do not check for mutable read in call case
   - Call occurs first?
 
-- [] For an imported/static member reference like:
+- [x] For an imported/static member reference like:
 
   ```scala
   object G:
@@ -260,11 +259,11 @@ _Additional:_
   So should our checker recover the qualifier through evalType(prefix), or do we also need a fallback through symbol.owner / symbol.termRef?
   ```
 
-- [] Should type taking like val x: G.T inside of object A be adding a dependency?
-- [] (inside evalType) do we need to worry about nested globals, adding dependencies. Does isStatic disallow this?
-- [] In warnIfMutableRead, should we be caring about nested classes, or derivative classes?
+- [x] Should type taking like val x: G.T inside of object A be adding a dependency?
+- [x] (inside evalType) do we need to worry about nested globals, adding dependencies. Does isStatic disallow this?
+- [x] In warnIfMutableRead, should we be caring about nested classes, or derivative classes?
 
-- []
+- [x]
   - ```
       Your concern is reasonable. A normal use of this inside a global object should not create a dependency on that same global object.
       For example:
@@ -294,6 +293,21 @@ _Additional:_
 #### Progress
 
 _Goals:_
+
+- [ ] Run the full test suite
+- [ ] Classify the issues
+  - Find out if its Precision/bugs/work deferred to other pass
+  - debug
+- [ ] Look into the warnIfMutableRead class check
+  - We need to look into the warning, we need to not just check the owner but also all baseClasses if any of them havee that field - (see the picture in my photos) Maybe look for a method in the regular checker, look for a method that finds if the class owns the classsymbol?
+- [ ] We should add scanned class inits as reachable methods, so add to the summary.RM set
+- [ ] // Example: `new Box(arg)`.
+  - case NewExpr(tref, \_, ctor, argss) =>
+  - evalArgs(argss)
+  - // A class created while initializing root is owned by root.
+  - evalType(tref.tpe.prefix)
+  - BASICALLY: just check if it compiles correctly. If not, fix it
+  - Look into this. is tref a type or a typeref
 
 ## Future todos (Add and remove as needed)
 
@@ -355,8 +369,8 @@ _Goals:_
   - missing lazy vals on select
   - Note: Maybe used cachedeval (in the original code) for lazy
 
+- Add a data structure to scan for reachable methods
+
+- cross reference evalType with the current checker (for expansions)
+
 ## Notes:
-
-```
-
-```
