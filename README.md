@@ -106,10 +106,6 @@ _Additional:_
 - [ ] Make scanState implictly passed (given/using)
 - [x] Pull out warnMutableAccess into checkForMutableAccess for clarity
 - [x] Made mutable read warning no longer take OwnedClass(A,A) (IE, global object no longer held in owned class)
-- [ ] Add lazy val handling
-  - Look into how lazy is dealt with in my currnt code (look into old code, how it handles it)
-  - missing lazy vals on select
-  - Note: Maybe used cachedeval (in the original code) for lazy
 - [?] Confirmed all basic test cases are correct
 
 #### Topics
@@ -221,20 +217,77 @@ _Additional:_
 
 _Goals:_
 
-- [ ] Check if array access a(42) = 5 gets turned into a.update(42,5) (FOR ASSIGN)
-- [ ] assert for assign if not ident or sel
+- [x] Check if array access a(42) = 5 gets turned into a.update(42,5) (FOR ASSIGN)
+  - Yes, it does.
+  - ![alt text](image-1.png)
+- [x] assert for assign if not ident or sel
+  - Added, come back to this after testing to see if we ever fail
 - [ ] simplify addObjectDependency
-- [ ] clean up select, ident (With the ICs)
+- [x] clean up select, ident (With the ICs)
   - we really just want to pass in the full IC of the current object when evaluating a field in select or ident
-- [ ] put the scanclassinits into the method queue
-- [ ] pass the state implicitly (given/using). And put the current global object inside of scanstate (roots)
-- [ ] Look into moving the warn check inside Call to Select (maybe just remove?) Because any getter calls should already have a select inside which will be caught. IE, do not check for mutable read in call case
-- [ ] Uses of evaltype:
+- [x] put the scanclassinits into the method queue
+- [x] pass the state implicitly (given/using). And put the current global object inside of scanstate (roots)
+- [x] Look into moving the warn check inside Call to Select (maybe just remove?) Because any getter calls should already have a select inside which will be caught. IE, do not check for mutable read in call case
+  - Call occurs first?
+- [x] Uses of evaltype:
   - this.x, the this is implicit, so it will be an ident instead. We need type to get the context around the ident back
   - Will do a lot of code duplication between ident and select
   - SPECIFICALLY: build out the structure for evaltype. The case is importing G.\*, we need to know what the qualifier is, even though its implict.
   - Look at old checker for evaltype uses
-  - Run the full test suite
+- [ ] Run the full test suite
+
+_Additional:_
+
+- [x] Removed the return type value tracking of call case
+
+#### Topics
+
+- [] Look into moving the warn check inside Call to Select (maybe just remove?) Because any getter calls should already have a select inside which will be caught. IE, do not check for mutable read in call case
+  - Call occurs first?
+
+- [] For an imported/static member reference like:
+
+  ```scala
+  object G:
+  val x = ...
+
+  import G.*
+  x
+  Should the typed Ident(x) reliably have a TermRef prefix that points back to G, or can it appear as TermRef(NoPrefix, x) even though x.symbol.owner is G?
+  I’m confused because the old safe-init checker has this fallback:
+  case tmref: TermRef if tmref.prefix == NoPrefix && tmref.symbol.owner.isClass =>
+  evalType(tmref.symbol.termRef)
+  So should our checker recover the qualifier through evalType(prefix), or do we also need a fallback through symbol.owner / symbol.termRef?
+  ```
+
+- [] Should type taking like val x: G.T inside of object A be adding a dependency?
+- [] (inside evalType) do we need to worry about nested globals, adding dependencies. Does isStatic disallow this?
+- [] In warnIfMutableRead, should we be caring about nested classes, or derivative classes?
+
+- []
+  - ```
+      Your concern is reasonable. A normal use of this inside a global object should not create a dependency on that same global object.
+      For example:
+      object G:
+      val x = this.y
+      If this has type G.type, we do not want to treat that as “G depends on G” in any meaningful way. addObjectDependency currently ignores target == source, so it is harmless, but conceptually noisy.
+      The reason I included the ThisType(tref) case was copied from the old checker’s shape. The old checker has:
+      case tp @ ThisType(tref) =>
+      val sym = tref.symbol
+      if sym.isStaticObject && sym != klass then
+      accessObject(sym.moduleClass.asClass)
+      else
+      resolveThis(...)
+    ```
+  - ```
+      object G:
+      val x: Int = 1
+
+      object A:
+      import G.\*
+      val y = x
+
+    ```
 
 ### July 11, 2026 - July 17, 2026
 
@@ -297,4 +350,13 @@ _Goals:_
 
 - From old global checker: We have this filterType() function which we can use to potentially filter the IC group.
 
+- [ ] Add lazy val handling
+  - Look into how lazy is dealt with in my currnt code (look into old code, how it handles it)
+  - missing lazy vals on select
+  - Note: Maybe used cachedeval (in the original code) for lazy
+
 ## Notes:
+
+```
+
+```
