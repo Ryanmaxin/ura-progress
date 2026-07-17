@@ -298,16 +298,35 @@ _Goals:_
 - [ ] Classify the issues
   - Find out if its Precision/bugs/work deferred to other pass
   - debug
-- [ ] Look into the warnIfMutableRead class check
+- [x] Look into the warnIfMutableRead class check
   - We need to look into the warning, we need to not just check the owner but also all baseClasses if any of them havee that field - (see the picture in my photos) Maybe look for a method in the regular checker, look for a method that finds if the class owns the classsymbol?
-- [ ] We should add scanned class inits as reachable methods, so add to the summary.RM set
-- [ ] // Example: `new Box(arg)`.
+- [x] We should add scanned class inits as reachable methods, so add to the summary.RM set
+- [x] // Example: `new Box(arg)`.
   - case NewExpr(tref, \_, ctor, argss) =>
   - evalArgs(argss)
   - // A class created while initializing root is owned by root.
   - evalType(tref.tpe.prefix)
   - BASICALLY: just check if it compiles correctly. If not, fix it
   - Look into this. is tref a type or a typeref
+
+_Additional:_
+
+- [ ] Lazy vals not implemented
+
+#### Topics
+
+- | [ ]```                                      | Result | Count                                                                        | Meaning |
+  | ------------------------------------------- | -----: | ---------------------------------------------------------------------------- | ------- |
+  | Exact pass                                  |      1 | `cyclic-object.scala`                                                        |
+  | Correct warning, different message text     |      7 | Semantically detected, but missing the old checker’s traces/details          |
+  | Detected something, fewer expected warnings |      6 | Usually one cycle warning instead of warnings at both expected positions     |
+  | No warnings at all                          |     24 | Genuine false negatives                                                      |
+  | Wrong-position “Unhandled tree” warnings    |      3 | Intended problem missed; internal unsupported-tree warning reported instead  |
+  | Extra warnings                              |      6 | A combination of deliberate over-approximation and unsupported-tree warnings |
+  | Compiler crash                              |      1 | Unsafe cast in`defDefOf`                                                     |
+
+```
+- [ ] Mutable reads are expected?
 
 ## Future todos (Add and remove as needed)
 
@@ -374,3 +393,4 @@ _Goals:_
 - cross reference evalType with the current checker (for expansions)
 
 ## Notes:
+```
