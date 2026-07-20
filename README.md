@@ -294,8 +294,8 @@ _Additional:_
 
 _Goals:_
 
-- [ ] Run the full test suite
-- [ ] Classify the issues
+- [x] Run the full test suite
+- [x] Classify the issues
   - Find out if its Precision/bugs/work deferred to other pass
   - debug
 - [x] Look into the warnIfMutableRead class check
@@ -311,22 +311,136 @@ _Goals:_
 
 _Additional:_
 
-- [ ] Lazy vals not implemented
+- [x] Lazy vals implemented
+  - Added evaluatedLazies, forcingLazies
+- [x] Added ReachableDefinition
+- [x] Change TypeTree to TypTree
+  - Because we need to Include AppliedTypeTree, not just TypeTree
+
+```
+TypTree
+├── TypeTree
+├── AppliedTypeTree
+├── SingletonTypeTree
+├── RefinedTypeTree
+├── TypeBoundsTree
+├── MatchTypeTree
+└── ...
+```
+
+- [x] Added warn on mutable write
+- [x] For a source-defined unapplySeq, this makes the checker also scan protocol operations that pattern matching can invoke implicitly:
+      length
+      apply
+      toSeq
+      drop
+      Those methods are added to the existing reachable-method worklist.
+      I restricted this to source objects already known to the checker:
+- [x] Allow flow sensitive Semantic.scala to check global objects conditionally
+- [x] Added array and closure checking to match with the testing
 
 #### Topics
 
-- | [ ]```                                      | Result | Count                                                                        | Meaning |
-  | ------------------------------------------- | -----: | ---------------------------------------------------------------------------- | ------- |
-  | Exact pass                                  |      1 | `cyclic-object.scala`                                                        |
-  | Correct warning, different message text     |      7 | Semantically detected, but missing the old checker’s traces/details          |
-  | Detected something, fewer expected warnings |      6 | Usually one cycle warning instead of warnings at both expected positions     |
-  | No warnings at all                          |     24 | Genuine false negatives                                                      |
-  | Wrong-position “Unhandled tree” warnings    |      3 | Intended problem missed; internal unsupported-tree warning reported instead  |
-  | Extra warnings                              |      6 | A combination of deliberate over-approximation and unsupported-tree warnings |
-  | Compiler crash                              |      1 | Unsafe cast in`defDefOf`                                                     |
+- [ ]
+
+| Result                                      | Count | Meaning                                                                      |
+| ------------------------------------------- | ----: | ---------------------------------------------------------------------------- |
+| Exact pass                                  |     1 | `cyclic-object.scala`                                                        |
+| Correct warning, different message text     |     7 | Semantically detected, but missing the old checker’s traces/details          |
+| Detected something, fewer expected warnings |     6 | Usually one cycle warning instead of warnings at both expected positions     |
+| No warnings at all                          |    24 | Genuine false negatives                                                      |
+| Wrong-position “Unhandled tree” warnings    |     3 | Intended problem missed; internal unsupported-tree warning reported instead  |
+| Extra warnings                              |     6 | A combination of deliberate over-approximation and unsupported-tree warnings |
+| Compiler crash                              |     1 | Unsafe cast in`defDefOf`                                                     |
+
+47/48 FAIL
+
+- [ ] Mutable reads are expected?
+  - /Users/rmaxin/Developer/URA/scala3/tests/init-global/warn/global-irrelevance2.scala
+- [ ] How to properly deal with lazys?
+  - Should we just eagerly evaluate?
+  - How to do pointer analysis?
+
+- [ ] How exactly do we deal with aliasing? Seems inappropriate for my case so far.
 
 ```
-- [ ] Mutable reads are expected?
+object Test:
+      class Box(value: => Int)
+
+  def f(a: => Int): Box =
+  lazy val b = a
+  Box(b)
+
+  val box = f(n)
+  val n = 10
+
+```
+
+- [ ]
+
+```
+  // Question: Should we worry about this?
+  //object O:
+  // lazy val self = this
+  // val f2 = 5
+  // val f3 = self.f2 + self.f3
+```
+
+- [ ] This?
+
+```
+object O:
+  val self = this
+  val f2 = 5
+  val f3 = self.f2 + self.f3
+```
+
+- [ ] How to handle closures? Anonymous functions? They are harder than lazys because they are anonymous?
+
+```
+(a: Int) => a + B.n
+Block(
+  List(
+    DefDef($anonfun, ..., a + B.n)
+  ),
+  Closure(..., $anonfun, ...)
+)
+```
+
+- []
+
+```
+| Result | Old | New | Interpretation |
+|---|---:|---:|---|
+| Exact pass | 1 | 1 | Fully matches old checker |
+| Correct warning, message differs | 7 | 8 | Semantic detection; missing detailed trace |
+| Some expected warnings detected | 6 | 7 | Usually one warning instead of two |
+| No warning | 24 | 29 | Intended warning genuinely missing |
+| Extra warnings | 6 | 3 | Intended warning plus false positives |
+| Wrong-position `Unhandled tree` | 3 | 0 | Fixed |
+| Compiler crash | 1 | 0 | Fixed |
+```
+
+The audit splits cleanly:
+22 cases are semantic variants of MethodObjectCycle.scala: initialization eventually reads the currently initializing object’s own not-yet-initialized state. Those can reasonably be delegated to the flow-sensitive class-init checker.
+7 cases are not deferrable: one global object reads or mutates mutable state owned by another global object. ObjectsSimple should warn for all seven.
+
+Recommended implementation order
+For ObjectsSimple, the seven real bugs divide into three features:
+Foreign writes — catches global-irrelevance2.
+Owned mutable arrays — catches global-irrelevance5, 6, and 7.
+Owned mutable closure environments — catches global-irrelevance3 and 4.
+Pattern protocol reachability plus array ownership — catches patmat-unapplySeq.
+
+- [] I’m looking at patmat-unapplySeq.scala in the global initialization tests. The explicit tree exposes the call to unapplySeq, but sequence matching can implicitly invoke protocol methods such as length/lengthCompare, apply, toSeq, and drop.
+  The old global checker explicitly models this protocol using the result type of unapplySeq. My simple checker currently only scans ordinary source-backed calls, so it would miss these compiler-implied calls.
+  I added a conservative prototype that enqueues length, apply, toSeq, and drop from the object defining unapplySeq. This catches the existing test because unapplySeq returns A.type and those methods are all defined directly in A.
+  However, this is not general: an extractor could return a separate result class containing those protocol methods, and some methods might come from external code without available source.
+  For the intentionally simple checker, which direction do you think is appropriate?
+  Model the protocol from the final result type of unapplySeq, scanning whichever methods have source.
+  Keep the narrow conservative implementation because it covers source-defined object extractors.
+  Treat compiler-implied pattern protocol calls as outside the scope of this checker and defer them elsewhere.
+  I’m leaning toward using the result type when source is available, since that matches Scala’s actual pattern semantics without requiring the old checker’s full abstract interpretation.
 
 ## Future todos (Add and remove as needed)
 
@@ -393,4 +507,3 @@ _Additional:_
 - cross reference evalType with the current checker (for expansions)
 
 ## Notes:
-```
