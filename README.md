@@ -1,8 +1,12 @@
 # Global Initialization Checker Rewrite Progress
 
+![Compiler warning showing a cyclic initialization path from object O1 to O2 and back to O1](URA.png)
+
 _Written by Ryan Maxin (rymaxin@gmail.com)_
 
 [Host link of this page](https://ryanmaxin.github.io/ura-progress/)
+
+[Github link for documentation](https://github.com/Ryanmaxin/ura-progress)
 
 [Implementation branch](https://github.com/Ryanmaxin/scala3/tree/upgrade_global_init_checker) · [Main implementation file](https://github.com/Ryanmaxin/scala3/blob/upgrade_global_init_checker/compiler/src/dotty/tools/dotc/transform/init/Objects_simple.scala)
 

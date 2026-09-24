@@ -1,2 +1,7 @@
 
 .metals/
+.scala-build/
+.bloop/
+.vscode/
+target/
+.DS_Store
